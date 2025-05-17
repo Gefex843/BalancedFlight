@@ -28,7 +28,7 @@ This version updates the mod for compatibility with **Create 6.0.4**. It may not
 
 ## 💬 Support
 
-For issues, please check the [issues section](https://github.com/your-username/BalancedFlight/issues) or open a new one.
+For issues, please check the [issues section](https://github.com/Gefex843/BalancedFlight/issues) or open a new one.
 
 ---
 
