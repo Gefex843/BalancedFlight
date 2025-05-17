@@ -31,8 +31,3 @@ This version updates the mod for compatibility with **Create 6.0.4**. It may not
 For issues, please check the [issues section](https://github.com/Gefex843/BalancedFlight/issues) or open a new one.
 
 ---
-
-## 🔗 Links
-
-- [Modrinth Project Page](https://modrinth.com/mod/balancedflight)
-- [CurseForge Original Mod](https://www.curseforge.com/minecraft/mc-mods/create-balanced-flight)
