@@ -1,7 +1,7 @@
 # Balanced Flight (Fork)
 
 ⚠️ **Disclaimer:** This is a **fork**. I am not the original creator. The original mod was developed by [Txnimc](https://github.com/txnimc/BalancedFlight), with a later fork by [Sintinium](https://github.com/Sintinium/BalancedFlight).  
-This version updates the mod for compatibility with **Create 6.0.4**. It may not receive further updates and is provided **as-is**.
+This version updates the mod for compatibility with **Create 6.0.4**.
 
 ---
 
