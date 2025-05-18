@@ -17,7 +17,7 @@ public class BalancedFlightNetwork {
 
     public static void registerMessage() {
         INSTANCE = NetworkRegistry.newSimpleChannel(
-                ResourceLocation.fromNamespaceAndPath(BalancedFlight.MODID, "main_network"), // <-- correcto para versiones nuevas
+                ResourceLocation.fromNamespaceAndPath(BalancedFlight.MODID, "main_network"),
                 () -> VERSION,
                 VERSION::equals,
                 VERSION::equals
