@@ -27,6 +27,6 @@ public class BalancedFlightNetwork {
                 .encoder(CustomNetworkMessage::toBytes)
                 .decoder(CustomNetworkMessage::new)
                 .consumerNetworkThread(CustomNetworkMessage::handler)
-                .add(); // asegúrate de que usas una versión de Forge que tenga .add()
+                .add();
     }
 }
