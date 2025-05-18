@@ -1,0 +1,17 @@
+{
+  "balancedflight.ponder.flight_anchor.header": "通过旋转力增强的飞行",
+  "balancedflight.ponder.flight_anchor.text_1": "飞行锚需要大量的能量才能运行。",
+  "balancedflight.ponder.flight_anchor.text_2": "每增加1转速（RPM），你可以围绕锚飞行1个方块。",
+  "balancedflight.ponder.flight_anchor.text_3": "更高的速度覆盖更大的面积。",
+  "balancedflight.ponder.tag.flight_anchor": "飞行锚",
+  "balancedflight.ponder.tag.flight_anchor.description": "通过旋转力增强的飞行",
+  "block.balancedflight.flight_anchor": "飞行锚",
+  "curios.identifier.flight_ring": "飞行环",
+  "item.balancedflight.ascended_flight_ring": "升华飞行环",
+  "itemGroup.balancedflight.base": "Create: BalancedFlight",
+  "tooltip.balancedflight.ascended_flight_ring": "一个极为密集的金色环，然而，它允许在任何地方飞行。",
+  "tooltip.balancedflight.ascended_flight_ring_text2": "允许创意飞行和增强的Elytra飞行。",
+  "tooltip.balancedflight.flight_anchor": "允许在25个方块的半径内飞行。仅在主世界中有效。",
+  "tooltip.balancedflight.flight_anchor_text2": "根据提供给它的转速（RPM），你可以在它周围飞行。",
+  "tooltip.balancedflight.flight_anchor_text3": "仅在主世界中有效。"
+}

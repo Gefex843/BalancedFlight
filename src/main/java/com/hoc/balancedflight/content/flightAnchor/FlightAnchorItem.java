@@ -24,7 +24,7 @@ public class FlightAnchorItem extends AnimatedBlockItem<FlightAnchorItem>
     {
         super.appendHoverText(stack, world, tooltip, p_41424_);
 
-        tooltip.add(Component.literal("Allows flight around it based on how much RPM is powering it.").withStyle(ChatFormatting.WHITE));
-        tooltip.add(Component.literal("Only works in the overworld.").withStyle(ChatFormatting.RED));
+        tooltip.add(Component.translatable("tooltip.balancedflight.flight_anchor_text2").withStyle(ChatFormatting.WHITE));
+        tooltip.add(Component.translatable("tooltip.balancedflight.flight_anchor_text3").withStyle(ChatFormatting.RED));
     }
 }

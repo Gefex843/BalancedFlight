@@ -42,7 +42,7 @@ public class FlightRing extends Item {
     @OnlyIn(Dist.CLIENT)
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag p_41424_) {
-        tooltip.add(Component.literal("An incredibly dense golden ring. Despite its weight, it allows you to fly anywhere (Angel Ring).").withStyle(ChatFormatting.GOLD));
-        tooltip.add(Component.literal("Allows both creative and enhanced Elytra flight.").withStyle(ChatFormatting.WHITE));
+        tooltip.add(Component.translatable("tooltip.balancedflight.ascended_flight_ring").withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("tooltip.balancedflight.ascended_flight_ring_text2").withStyle(ChatFormatting.WHITE));
     }
 }
