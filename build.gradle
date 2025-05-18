@@ -11,14 +11,13 @@ buildscript {
         classpath 'org.parchmentmc:librarian:1.+'
     }
 }
+
 plugins {
     id 'com.matthewprenger.cursegradle' version "${cursegradle_version}"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
-
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
@@ -30,8 +29,8 @@ ext.buildnumber = 0
 project.buildnumber = System.getenv('BUILD_NUMBER') != null ? System.getenv('BUILD_NUMBER') : "custom"
 
 version = "${minecraft_version}_v${mod_version}" + (dev && !buildnumber.equals("custom") ? "+${buildnumber}" : '')
-group = 'com.vice.balancedflight'
-archivesBaseName = 'balancedflight'
+group = mod_group_id
+archivesBaseName = mod_id
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
@@ -42,7 +41,6 @@ minecraft {
         client {
             workingDirectory project.file('run')
             arg '-mixin.config=balancedflight.mixins.json'
-            //jvmArgs '-XX:+UnlockCommercialFeatures' // uncomment for profiling
             property 'forge.logging.console.level', 'info'
             property 'fml.earlyprogresswindow', 'false'
             property 'mixin.env.remapRefMap', 'true'
@@ -88,10 +86,6 @@ compileJava {
     options.compilerArgs = ["-Xdiags:verbose"]
 }
 
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-}
-
 processResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
@@ -103,7 +97,6 @@ mixin {
 repositories {
     maven { url 'https://modmaven.dev/' }
     maven {
-        // Location of the maven for mixed mappings, Registrate, and Flywheel
         name = "tterrag maven"
         url = "https://maven.tterrag.com/"
     }
@@ -115,53 +108,41 @@ repositories {
         url = "https://maven.theillusivec4.top/"
     }
     maven {
-        // Create, Ponder, Flywheel
         url = "https://maven.createmod.net"
     }
 }
 
-
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-
-//    def registrate = "com.tterrag.registrate:Registrate:${registrate_version}"
-//    implementation fg.deobf(registrate)
-//    shade registrate
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
-
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
-
     compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
-
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}")
-
     implementation fg.deobf("com.simibubi.create:create-${minecraft_version}:${create_version}:all") {
         transitive = false
     }
     implementation fg.deobf("net.createmod.ponder:Ponder-Forge-${minecraft_version}:${ponder_version}")
     implementation fg.deobf("curse.maven:geckolib-388172:4573048")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
-
     compileOnly fg.deobf("dev.engine-room.flywheel:flywheel-forge-api-${minecraft_version}:${flywheel_version}")
     runtimeOnly fg.deobf("dev.engine-room.flywheel:flywheel-forge-${minecraft_version}:${flywheel_version}")
-
     annotationProcessor 'org.spongepowered:mixin:0.8.3:processor'
 }
 
 jar {
     manifest {
         attributes([
-                "Specification-Title": "balancedflight",
-                "Specification-Vendor": "vice",
-                "Specification-Version": "1",
-                "Implementation-Title": project.name,
-                "Implementation-Version": "${version}",
-                "Implementation-Vendor" :"vice",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs": "balancedflight.mixins.json"
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : mod_authors,
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : "${version}",
+                'Implementation-Vendor'   : mod_authors,
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                'MixinConfigs' : "${mod_id}.mixins.json",
         ])
     }
 }
