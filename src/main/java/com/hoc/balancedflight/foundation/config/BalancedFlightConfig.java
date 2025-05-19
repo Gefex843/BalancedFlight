@@ -29,6 +29,8 @@ public class BalancedFlightConfig
 
     public static ConfigValue<Double> anchorDistanceMultiplier;
     public static ConfigValue<Integer> anchorStress;
+    public static ConfigValue<Integer> miningSpeedAmplifier;
+    public static ConfigValue<Boolean> isEnableMiningSpeedAmplifier;
 
     static
     {
@@ -47,6 +49,8 @@ public class BalancedFlightConfig
             anchorStress = b.defineInRange("Anchor stress impact", 256, 0, Integer.MAX_VALUE);
             disableFallDamageWhenWearingRing = b.define("Disable Fall Damage When Wearing Ascended Ring", true);
             disableFallDamageNearAnchor = b.define("Disable Fall Damage Near Flight Anchor", true);
+            isEnableMiningSpeedAmplifier = b.define("Enable Mining Speed Amplifier While Flying", true);
+            miningSpeedAmplifier = b.defineInRange("Mining Speed Amplifier While Flying (1 -> 255, default 25)", 25, 1, 255);
         });
 
         builder.Block("Enhanced Elytra Mechanics", b -> {

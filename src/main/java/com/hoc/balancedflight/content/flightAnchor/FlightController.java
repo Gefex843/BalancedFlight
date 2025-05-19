@@ -3,11 +3,13 @@ package com.hoc.balancedflight.content.flightAnchor;
 import com.hoc.balancedflight.content.flightAnchor.entity.FlightAnchorEntity;
 import com.hoc.balancedflight.foundation.compat.AscendedRingCurio;
 import com.hoc.balancedflight.foundation.config.BalancedFlightConfig;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 public class FlightController
@@ -27,12 +29,18 @@ public class FlightController
                 }
             }
             case Creative, Both -> {
+                BlockPos posBelow = player.blockPosition().below();
+                BlockState blockState = player.level().getBlockState(posBelow);
+                int amplifier = BalancedFlightConfig.miningSpeedAmplifier.get();
 
                 if (!player.getAbilities().mayfly) {
                     startFlying(player);
                     // handle removing effect cleanly
                     if (player.hasEffect(MobEffects.SLOW_FALLING))
                         player.removeEffect(MobEffects.SLOW_FALLING);
+                }
+                if (BalancedFlightConfig.isEnableMiningSpeedAmplifier.get() && player.getAbilities().mayfly && blockState.isAir()) {
+                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 5, amplifier, false, false));
                 }
             }
         }
