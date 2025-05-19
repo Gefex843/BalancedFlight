@@ -11,6 +11,7 @@ This version updates the mod for compatibility with **Create 6.0.4**.
 - [**CurseForge** - Original mod by Txnimc](https://www.curseforge.com/minecraft/mc-mods/create-balanced-flight)
 
 ---
+
 ## 🛠️ Features
 
 - This fork improves flight mechanics for the Create mod.
@@ -23,6 +24,16 @@ This version updates the mod for compatibility with **Create 6.0.4**.
 1. Download the mod from one of the links above.
 2. Place the mod `.jar` file into your Minecraft `mods` folder.
 3. Launch Minecraft with the required version of Forge.
+
+---
+
+## 🌍 Translations
+
+If you'd like to contribute to translations, they can be found in the following directory:
+```
+src/main/resources/assets/balancedflight/lang
+```
+Feel free to add translations for new languages or improve existing ones!
 
 ---
 
