@@ -1,0 +1,17 @@
+{
+  "balancedflight.ponder.flight_anchor.header": "Voo motorizado com Força Rotacional",
+  "balancedflight.ponder.flight_anchor.text_1": "A âncora de voo requer uma quantidade enorme de energia para funcionar.",
+  "balancedflight.ponder.flight_anchor.text_2": "Por cada RPM, poderás voar um bloco em redor da âncora.",
+  "balancedflight.ponder.flight_anchor.text_3": "Velocidades mais altas cobrem uma área muito maior.",
+  "balancedflight.ponder.tag.flight_anchor": "Âncora de Voo",
+  "balancedflight.ponder.tag.flight_anchor.description": "Voo motorizado com Força Rotacional",
+  "block.balancedflight.flight_anchor": "Âncora de Voo",
+  "curios.identifier.flight_ring": "Anel de Voo",
+  "item.balancedflight.ascended_flight_ring": "Anel de Voo Ascendido",
+  "itemGroup.balancedflight.base": "Create: BalancedFlight",
+  "tooltip.balancedflight.ascended_flight_ring": "Um anel dourado incrivelmente denso que, ainda assim, permite voar em qualquer lugar.",
+  "tooltip.balancedflight.ascended_flight_ring_text2": "Permite voo criativo e voo melhorado com Elytra.",
+  "tooltip.balancedflight.flight_anchor": "Permite voo num raio de 25 blocos. Apenas funciona no mundo superior.",
+  "tooltip.balancedflight.flight_anchor_text2": "Permite voo ao redor consoante a quantidade de RPM que o alimenta.",
+  "tooltip.balancedflight.flight_anchor_text3": "Apenas funciona no mundo superior"
+}

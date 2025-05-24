@@ -1,0 +1,17 @@
+{
+  "balancedflight.ponder.flight_anchor.header": "Vuelo impulsado por Fuerza Rotacional",
+  "balancedflight.ponder.flight_anchor.text_1": "El ancla de vuelo requiere una enorme cantidad de energía para funcionar.",
+  "balancedflight.ponder.flight_anchor.text_2": "Por cada RPM, podrás volar un bloque alrededor del ancla.",
+  "balancedflight.ponder.flight_anchor.text_3": "A mayor velocidad, mayor área de cobertura.",
+  "balancedflight.ponder.tag.flight_anchor": "Ancla de Vuelo",
+  "balancedflight.ponder.tag.flight_anchor.description": "Vuelo impulsado por Fuerza Rotacional",
+  "block.balancedflight.flight_anchor": "Ancla de Vuelo",
+  "curios.identifier.flight_ring": "Anillo de Vuelo",
+  "item.balancedflight.ascended_flight_ring": "Anillo de Vuelo Ascendido",
+  "itemGroup.balancedflight.base": "Create: Vuelo Equilibrado",
+  "tooltip.balancedflight.ascended_flight_ring": "Un anillo dorado increíblemente denso que, sin embargo, permite volar en cualquier lugar.",
+  "tooltip.balancedflight.ascended_flight_ring_text2": "Permite tanto el vuelo creativo como un vuelo mejorado con Elytra.",
+  "tooltip.balancedflight.flight_anchor": "Permite volar en un radio de 25 bloques. Solo funciona en la superficie.",
+  "tooltip.balancedflight.flight_anchor_text2": "Permite volar a su alrededor en función de las RPM que lo alimenten.",
+  "tooltip.balancedflight.flight_anchor_text3": "Solo funciona en la superficie"
+}
