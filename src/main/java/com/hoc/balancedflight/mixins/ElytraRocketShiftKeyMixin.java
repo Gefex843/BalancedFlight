@@ -4,6 +4,7 @@ package com.hoc.balancedflight.mixins;
 import com.hoc.balancedflight.content.flightAnchor.FlightController;
 import com.hoc.balancedflight.foundation.config.BalancedFlightConfig;
 import com.hoc.balancedflight.foundation.network.CustomNetworkMessage;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,12 +30,12 @@ public class ElytraRocketShiftKeyMixin
             if (!allowed.canElytraFly())
                 return;
 
-            if (player.isSprinting() && player.input.hasForwardImpulse())
+            if (Minecraft.getInstance().options.keySprint.isDown() && player.input.hasForwardImpulse())
             {
                 Level world = player.level();
 
-                long now = Instant.now().getEpochSecond();
-                if (now - LastUsedFireworkTime > 1)
+                long now = Instant.now().toEpochMilli();
+                if (now - LastUsedFireworkTime > 1000)
                 {
                     CustomNetworkMessage.Send(world, player, "FIRE_ROCKET");
                     LastUsedFireworkTime = now;

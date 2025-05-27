@@ -27,7 +27,6 @@ public class ElytraMixin
             if (!allowed.canElytraFly())
                 return;
 
-            player.startFallFlying();
             player.connection.send(new ServerboundPlayerCommandPacket(player, ServerboundPlayerCommandPacket.Action.START_FALL_FLYING));
             ci.cancel();
         }
