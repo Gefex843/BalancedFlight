@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class AllPonderScenes
 {
-    public static final ResourceLocation FLIGHT_ANCHOR = new ResourceLocation(BalancedFlight.MODID, "flight_anchor");
+    public static final ResourceLocation FLIGHT_ANCHOR = ResourceLocation.fromNamespaceAndPath(BalancedFlight.MODID, "flight_anchor");
 
     public static void registerTags(PonderTagRegistrationHelper<ResourceLocation> helper) {
         PonderTagRegistrationHelper<RegistryEntry<?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);

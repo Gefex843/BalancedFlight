@@ -13,7 +13,7 @@ issueTrackerURL="https://github.com/Gefex843/BalancedFlight/issues"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]]
 modId="balancedflight"
-version="2.4.3"
+version="2.4.4"
 displayName="Create: BalancedFlight"
 logoFile="logo.png"
 authors="Gefex, Vice"
