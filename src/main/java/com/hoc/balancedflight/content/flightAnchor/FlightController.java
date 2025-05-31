@@ -8,7 +8,6 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -84,7 +83,7 @@ public class FlightController {
     }
 
     private static boolean isWithinFlightRange(Player player) {
-        if (player.level().dimension() != Level.OVERWORLD)
+        if (!BalancedFlightConfig.getAllowedDimensions().contains(player.level().dimension()))
             return false;
 
         double multiplier = BalancedFlightConfig.anchorDistanceMultiplier.get();

@@ -1,5 +1,6 @@
 package com.hoc.balancedflight.content.flightAnchor;
 
+import com.hoc.balancedflight.foundation.config.BalancedFlightConfig;
 import com.hoc.balancedflight.foundation.render.AnimatedBlockItem;
 import com.hoc.balancedflight.AllGeckoRenderers;
 import net.minecraft.ChatFormatting;
@@ -26,6 +27,8 @@ public class FlightAnchorItem extends AnimatedBlockItem<FlightAnchorItem> {
         super.appendHoverText(stack, world, tooltip, flag);
 
         tooltip.add(Component.translatable("tooltip.balancedflight.flight_anchor_text2").withStyle(ChatFormatting.WHITE));
-        tooltip.add(Component.translatable("tooltip.balancedflight.flight_anchor_text3").withStyle(ChatFormatting.RED));
+        if (BalancedFlightConfig.additionalAllowedDimensions.get().isEmpty()) {
+            tooltip.add(Component.translatable("tooltip.balancedflight.flight_anchor_text3").withStyle(ChatFormatting.RED));
+        }
     }
 }
