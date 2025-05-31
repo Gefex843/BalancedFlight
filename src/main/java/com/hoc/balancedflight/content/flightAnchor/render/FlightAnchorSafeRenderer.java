@@ -1,9 +1,7 @@
 package com.hoc.balancedflight.content.flightAnchor.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllPartialModels;
-import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntityRenderer;
 import com.hoc.balancedflight.content.flightAnchor.entity.FlightAnchorEntity;
@@ -24,56 +22,53 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import javax.annotation.Nullable;
 
+public class FlightAnchorSafeRenderer implements ICreateSafeRenderer {
 
-public class FlightAnchorSafeRenderer implements ICreateSafeRenderer
-{
     @Override
-    public void renderCreate(@Nullable KineticBlockEntity te, @Nullable BlockPos pos, BlockState blockState, PoseStack ms, MultiBufferSource buffer, int light)
-    {
-        final Direction.Axis boxAxis = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING).getAxis();
-        float time = AnimationTickHolder.getRenderTime(te == null ? Minecraft.getInstance().level : te.getLevel());
+    public void renderCreate(@Nullable KineticBlockEntity te, @Nullable BlockPos pos, BlockState blockState, PoseStack ms, MultiBufferSource buffer, int light) {
+        Direction.Axis boxAxis = blockState.getValue(BlockStateProperties.HORIZONTAL_FACING).getAxis();
 
-        float placedTime = te == null ? 0f : ((FlightAnchorEntity)te).placedRenderTime;
+        float time = AnimationTickHolder.getRenderTime(te == null ? Minecraft.getInstance().level : te.getLevel());
+        float placedTime = te instanceof FlightAnchorEntity ? ((FlightAnchorEntity) te).placedRenderTime : 0f;
         if (time - placedTime < 25f)
             return;
-        placedTime = placedTime + 25f;
+        float animationStart = placedTime + 25f;
+
+        float speed = te == null ? 32 : te.getSpeed();
 
         for (Direction direction : Iterate.directions) {
-            final Direction.Axis axis = direction.getAxis();
-            if (boxAxis == axis || direction == Direction.DOWN || direction == Direction.UP)
+            Direction.Axis axis = direction.getAxis();
+
+            if (axis == boxAxis || direction == Direction.UP || direction == Direction.DOWN)
                 continue;
 
-            var speed = te == null ? 32 : te.getSpeed();
-            float angle = (time * speed * 3f / 10) % 360;
+            float angle = (time * speed * 0.3f) % 360;
 
-            float offset = te == null ? 0f : KineticBlockEntityRenderer.getRotationOffsetForPosition(te, pos, axis);
-            angle += offset;
-            angle = angle / 180f * (float) Math.PI;
+            if (te != null)
+                angle += KineticBlockEntityRenderer.getRotationOffsetForPosition(te, pos, axis);
+
+            float angleRad = angle * ((float) Math.PI / 180f);
 
             SuperByteBuffer shaft = CachedBuffers.partialFacing(AllPartialModels.SHAFT_HALF, blockState, direction);
 
+            ms.pushPose();
             if (te != null) {
-                KineticBlockEntityRenderer.kineticRotationTransform(shaft, te, axis, angle, light);
-                ms.pushPose();
-                var scale = Mth.clampedLerp(0.01F, 1F, Mth.clamp(time - placedTime, 0f, 5f) / 5f);
+                KineticBlockEntityRenderer.kineticRotationTransform(shaft, te, axis, angleRad, light);
 
-                if (axis == Direction.Axis.X)
-                {
+                float progress = Mth.clamp(time - animationStart, 0f, 5f) / 5f;
+                float scale = Mth.clampedLerp(0.01F, 1F, progress);
+
+                if (axis == Direction.Axis.X) {
                     ms.translate((1 - scale) * 0.5F, 0, 0);
                     ms.scale(scale, 1F, 1F);
-                }
-                else
-                {
+                } else {
                     ms.translate(0, 0, (1 - scale) * 0.5F);
                     ms.scale(1F, 1F, scale);
                 }
-            }
-            else {
+            } else {
                 shaft.light(light);
-                shaft.rotateCentered(angle, Direction.get(Direction.AxisDirection.POSITIVE, axis));
+                shaft.rotateCentered(angleRad, Direction.get(Direction.AxisDirection.POSITIVE, axis));
                 shaft.color(Color.WHITE);
-
-                ms.pushPose();
                 ms.translate(0, 0.5D, 0);
             }
 
@@ -81,8 +76,4 @@ public class FlightAnchorSafeRenderer implements ICreateSafeRenderer
             ms.popPose();
         }
     }
-
-
-
-
 }

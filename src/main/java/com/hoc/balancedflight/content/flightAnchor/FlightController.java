@@ -12,19 +12,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class FlightController
-{
-    public static void tick(Player player)
-    {
-        FlightMode allowed = AllowedFlightModes(player, false);
+public class FlightController {
 
-        switch (allowed)
-        {
+    public static void tick(Player player) {
+        FlightMode allowed = allowedFlightModes(player, false);
+
+        switch (allowed) {
             case None, Elytra -> {
-                if (!player.isCreative() && player.getAbilities().mayfly)
-                {
+                if (!player.isCreative() && player.getAbilities().mayfly) {
                     stopFlying(player);
-                    // handle falling out of sky
                     player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 200));
                 }
             }
@@ -35,7 +31,6 @@ public class FlightController
 
                 if (!player.getAbilities().mayfly) {
                     startFlying(player);
-                    // handle removing effect cleanly
                     if (player.hasEffect(MobEffects.SLOW_FALLING))
                         player.removeEffect(MobEffects.SLOW_FALLING);
                 }
@@ -61,64 +56,47 @@ public class FlightController
         }
     }
 
-    public static FlightMode AllowedFlightModes(Player player, boolean onlyCareAboutElytra)
-    {
+    public static FlightMode allowedFlightModes(Player player, boolean onlyCareAboutElytra) {
         boolean hasAscended = AscendedRingCurio.HasAscendedRing(player);
-        boolean CanElytraFly;
-        boolean CanCreativeFly;
 
-        if (hasAscended)
-        {
-            // fetch from config and look up allowed modes from truth table
-            CanElytraFly = BalancedFlightConfig.ElytraAscended.get();
-            CanCreativeFly = BalancedFlightConfig.CreativeAscended.get();
-            FlightMode allowedModes = FlightMode.fromBools(CanElytraFly, CanCreativeFly);
+        if (hasAscended) {
+            boolean canElytraFly = BalancedFlightConfig.ElytraAscended.get();
+            boolean canCreativeFly = BalancedFlightConfig.CreativeAscended.get();
+            FlightMode allowedModes = FlightMode.fromBools(canElytraFly, canCreativeFly);
 
-            // if it's just creative, both, or neither, just return
             if (allowedModes != FlightMode.Elytra)
                 return allowedModes;
 
-            // if Elytra doesn't give unlimited creative flight,
-            // check if Basic tier is allowed to fly.
-            if (!CanCreativeFly && BalancedFlightConfig.CreativeAnchor.get())
-            {
-                if (IsWithinFlightRange(player))
-                    return FlightMode.fromBools(CanElytraFly, true);
+            if (!canCreativeFly && BalancedFlightConfig.CreativeAnchor.get() && isWithinFlightRange(player)) {
+                return FlightMode.fromBools(canElytraFly, true);
             }
 
             return allowedModes;
         }
 
-        // only has basic ring at this point
-        CanElytraFly = BalancedFlightConfig.ElytraAnchor.get();
-        CanCreativeFly = BalancedFlightConfig.CreativeAnchor.get();
+        boolean canElytraFly = BalancedFlightConfig.ElytraAnchor.get();
+        boolean canCreativeFly = BalancedFlightConfig.CreativeAnchor.get();
 
-        if (onlyCareAboutElytra && !CanElytraFly)
+        if (onlyCareAboutElytra && !canElytraFly)
             return FlightMode.None;
 
-        if (IsWithinFlightRange(player))
-            return FlightMode.fromBools(CanElytraFly, CanCreativeFly);
-        else
-            return FlightMode.None;
+        return isWithinFlightRange(player) ? FlightMode.fromBools(canElytraFly, canCreativeFly) : FlightMode.None;
     }
 
-    private static boolean IsWithinFlightRange(Player player)
-    {
+    private static boolean isWithinFlightRange(Player player) {
         if (player.level().dimension() != Level.OVERWORLD)
             return false;
 
-        double anchorDistanceMultiplier = BalancedFlightConfig.anchorDistanceMultiplier.get();
+        double multiplier = BalancedFlightConfig.anchorDistanceMultiplier.get();
 
-        return FlightAnchorEntity.ActiveAnchors
-                .entrySet()
-                .stream()
-                .anyMatch(anchor -> distSqr(anchor.getKey(), player.position()) < (anchorDistanceMultiplier * anchor.getValue().getSpeed()) * (anchorDistanceMultiplier * anchor.getValue().getSpeed()));
+        return FlightAnchorEntity.ActiveAnchors.entrySet().stream()
+                .anyMatch(anchor -> distSqr(anchor.getKey(), player.position()) < Math.pow(multiplier * anchor.getValue().getSpeed(), 2));
     }
 
     private static double distSqr(Vec3i vec, Vec3 other) {
-        double d1 = (double)vec.getX() - other.x;
-        double d3 = (double)vec.getZ() - other.z;
-        return d1 * d1 + d3 * d3;
+        double dx = vec.getX() - other.x;
+        double dz = vec.getZ() - other.z;
+        return dx * dx + dz * dz;
     }
 
     public enum FlightMode {
@@ -127,16 +105,13 @@ public class FlightController
         Creative,
         Both;
 
-        public static FlightMode fromBools(boolean ElytraAllowed, boolean CreativeAllowed) {
-            if (ElytraAllowed && CreativeAllowed)
+        public static FlightMode fromBools(boolean elytraAllowed, boolean creativeAllowed) {
+            if (elytraAllowed && creativeAllowed)
                 return Both;
-
-            if (ElytraAllowed)
+            if (elytraAllowed)
                 return Elytra;
-
-            if (CreativeAllowed)
+            if (creativeAllowed)
                 return Creative;
-
             return None;
         }
 

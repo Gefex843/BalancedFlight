@@ -10,26 +10,25 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 
-
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AllCreativeTabs
-{
+public class AllCreativeTabs {
+
     private static final DeferredRegister<CreativeModeTab> TAB_REGISTER =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, BalancedFlight.MODID);
 
-    public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = TAB_REGISTER.register("base",
-            () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> CREATIVE_TAB = TAB_REGISTER.register("base", () ->
+            CreativeModeTab.builder()
                     .title(Component.translatable("itemGroup.balancedflight.base"))
                     .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
                     .icon(BalancedFlight.FLIGHT_ANCHOR_BLOCK::asStack)
-                    .displayItems(((pParameters, pOutput) -> {
-                        for (var item : BalancedFlight.CREATE_REGISTRATE.getAll(Registries.ITEM))
-                            pOutput.accept(new ItemStack(item.get()));
-
-                        for (var block : BalancedFlight.CREATE_REGISTRATE.getAll(Registries.BLOCK))
-                            pOutput.accept(new ItemStack(block.get()));
-                    }))
-                    .build());
+                    .displayItems((params, output) -> {
+                        BalancedFlight.CREATE_REGISTRATE.getAll(Registries.ITEM)
+                                .forEach(item -> output.accept(new ItemStack(item.get())));
+                        BalancedFlight.CREATE_REGISTRATE.getAll(Registries.BLOCK)
+                                .forEach(block -> output.accept(new ItemStack(block.get())));
+                    })
+                    .build()
+    );
 
     public static void register(IEventBus modEventBus) {
         TAB_REGISTER.register(modEventBus);

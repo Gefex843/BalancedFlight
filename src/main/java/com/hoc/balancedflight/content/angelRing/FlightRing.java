@@ -23,25 +23,27 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = BalancedFlight.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class FlightRing extends Item {
 
-    public FlightRing(Item.Properties props) { super(props); }
+    public FlightRing(Item.Properties properties) {
+        super(properties);
+    }
 
     @SubscribeEvent
-    public static void sendImc(InterModEnqueueEvent event) {
-        if (ExternalMods.CURIOS.isLoaded())
+    public static void sendInterModCommunication(InterModEnqueueEvent event) {
+        if (ExternalMods.CURIOS.isLoaded()) {
             AscendedRingCurio.sendImc();
+        }
     }
 
     @Override
-    public ICapabilityProvider initCapabilities(final ItemStack stack, CompoundTag unused) {
-        if (ExternalMods.CURIOS.isLoaded()) {
-            return AscendedRingCurio.initCapabilities((FlightRing) stack.getItem());
-        }
-        return super.initCapabilities(stack, unused);
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+        return ExternalMods.CURIOS.isLoaded()
+                ? AscendedRingCurio.initCapabilities((FlightRing) stack.getItem())
+                : super.initCapabilities(stack, nbt);
     }
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag p_41424_) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable("tooltip.balancedflight.ascended_flight_ring").withStyle(ChatFormatting.GOLD));
         tooltip.add(Component.translatable("tooltip.balancedflight.ascended_flight_ring_text2").withStyle(ChatFormatting.WHITE));
     }

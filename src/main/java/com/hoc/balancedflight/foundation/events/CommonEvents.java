@@ -27,7 +27,7 @@ public class CommonEvents
     public static void onLivingAttack(LivingAttackEvent event) {
         if (Objects.equals(event.getSource().getMsgId(), "flyIntoWall") && BalancedFlightConfig.disableElytraDamage.get()) {
             if (event.getEntity() instanceof Player player) {
-                if (FlightController.AllowedFlightModes(player, true) != FlightController.FlightMode.None)
+                if (FlightController.allowedFlightModes(player, true) != FlightController.FlightMode.None)
                     event.setCanceled(true);
             }
         }
@@ -40,7 +40,7 @@ public class CommonEvents
                 if (AscendedRingCurio.HasAscendedRing(player) && BalancedFlightConfig.disableFallDamageWhenWearingRing.get())
                     event.setCanceled(true);
 
-                if (BalancedFlightConfig.disableFallDamageNearAnchor.get() && FlightController.AllowedFlightModes(player, false) != FlightController.FlightMode.None)
+                if (BalancedFlightConfig.disableFallDamageNearAnchor.get() && FlightController.allowedFlightModes(player, false) != FlightController.FlightMode.None)
                     event.setCanceled(true);
             }
         }

@@ -23,7 +23,7 @@ public class InputEvents {
 
             if (player.onGround() && !player.isFallFlying()) {
 
-                if (!FlightController.AllowedFlightModes(player, true).canElytraFly())
+                if (!FlightController.allowedFlightModes(player, true).canElytraFly())
                     return;
 
                 Vec3 vector3d = player.getLookAngle();

@@ -7,28 +7,28 @@ import net.createmod.ponder.api.registration.PonderSceneRegistrationHelper;
 import net.createmod.ponder.api.registration.PonderTagRegistrationHelper;
 import net.minecraft.resources.ResourceLocation;
 
-public class AllPonderScenes
-{
-    public static final ResourceLocation FLIGHT_ANCHOR = ResourceLocation.fromNamespaceAndPath(BalancedFlight.MODID, "flight_anchor");
+public class AllPonderScenes {
+    public static final ResourceLocation FLIGHT_ANCHOR =
+            ResourceLocation.fromNamespaceAndPath(BalancedFlight.MODID, "flight_anchor");
 
     public static void registerTags(PonderTagRegistrationHelper<ResourceLocation> helper) {
-        PonderTagRegistrationHelper<RegistryEntry<?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);
+        PonderTagRegistrationHelper<RegistryEntry<?>> tagHelper = helper.withKeyFunction(RegistryEntry::getId);
 
-        HELPER.registerTag(FLIGHT_ANCHOR)
+        tagHelper.registerTag(FLIGHT_ANCHOR)
                 .addToIndex()
                 .item(BalancedFlight.FLIGHT_ANCHOR_BLOCK.get())
                 .title("Flight Anchor")
                 .description("Powered flight with Rotational Force")
                 .register();
 
-        HELPER.addToTag(FLIGHT_ANCHOR)
+        tagHelper.addToTag(FLIGHT_ANCHOR)
                 .add(BalancedFlight.FLIGHT_ANCHOR_BLOCK);
     }
 
     public static void registerScenes(PonderSceneRegistrationHelper<ResourceLocation> helper) {
-        PonderSceneRegistrationHelper<ItemProviderEntry<?>> HELPER = helper.withKeyFunction(RegistryEntry::getId);
+        PonderSceneRegistrationHelper<ItemProviderEntry<?>> sceneHelper = helper.withKeyFunction(RegistryEntry::getId);
 
-        HELPER.forComponents(BalancedFlight.FLIGHT_ANCHOR_BLOCK)
+        sceneHelper.forComponents(BalancedFlight.FLIGHT_ANCHOR_BLOCK)
                 .addStoryBoard("flight_anchor", FlightAnchorPonderScene::ponderScene, FLIGHT_ANCHOR);
     }
 }

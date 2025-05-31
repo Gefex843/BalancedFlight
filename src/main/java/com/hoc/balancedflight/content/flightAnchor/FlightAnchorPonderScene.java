@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 
 public class FlightAnchorPonderScene {
-    public FlightAnchorPonderScene() { }
 
     public static void ponderScene(SceneBuilder builder, SceneBuildingUtil util) {
         CreateSceneBuilder scene = new CreateSceneBuilder(builder);
@@ -19,10 +18,15 @@ public class FlightAnchorPonderScene {
 
         scene.world().showSection(util.select().layer(0), Direction.UP);
         scene.world().showSection(util.select().layer(1), Direction.UP);
-        scene.world().setKineticSpeed(util.select().everywhere(), 0.0F);
+        scene.world().setKineticSpeed(util.select().everywhere(), 0f);
 
-        Selection flightAnchorSelect = util.select().position(3, 1, 2);//
-        scene.overlay().showText(90).placeNearTarget().text("The flight anchor requires an immense amount of power to operate.").pointAt(flightAnchorSelect.getCenter());
+        Selection flightAnchorSelection = util.select().position(3, 1, 2);
+
+        scene.overlay()
+                .showText(90)
+                .placeNearTarget()
+                .text("The flight anchor requires an immense amount of power to operate.")
+                .pointAt(flightAnchorSelection.getCenter());
         scene.idle(100);
 
         BlockPos flightAnchorPos = util.grid().at(3, 1, 2);
@@ -30,12 +34,20 @@ public class FlightAnchorPonderScene {
             FlightAnchorBehaviour.beaconTick(entity.getLevel(), entity.getBlockPos(), entity);
         });
 
-        scene.world().setKineticSpeed(util.select().everywhere(), 32.0F);
-        scene.overlay().showText(90).placeNearTarget().text("For each RPM, you will be able to fly one block around the anchor.").pointAt(flightAnchorSelect.getCenter());
+        scene.world().setKineticSpeed(util.select().everywhere(), 32f);
+        scene.overlay()
+                .showText(90)
+                .placeNearTarget()
+                .text("For each RPM, you will be able to fly one block around the anchor.")
+                .pointAt(flightAnchorSelection.getCenter());
         scene.idle(100);
 
-        scene.world().setKineticSpeed(util.select().everywhere(), 128.0F);
-        scene.overlay().showText(1000).placeNearTarget().text("Higher speeds cover a much higher surface area.").pointAt(flightAnchorSelect.getCenter());
+        scene.world().setKineticSpeed(util.select().everywhere(), 128f);
+        scene.overlay()
+                .showText(1000)
+                .placeNearTarget()
+                .text("Higher speeds cover a much higher surface area.")
+                .pointAt(flightAnchorSelection.getCenter());
         scene.idle(100);
 
         scene.markAsFinished();

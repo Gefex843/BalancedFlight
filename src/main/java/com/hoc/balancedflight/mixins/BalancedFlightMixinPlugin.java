@@ -10,13 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("unused")
-public class BalancedFlightMixinPlugin implements IMixinConfigPlugin
-{
+public class BalancedFlightMixinPlugin implements IMixinConfigPlugin {
     private static final String MIXIN_PACKAGE_ROOT = "com.hoc.balancedflight.mixins.";
 
     @Override
     public void onLoad(String mixinPackage) {
-       BalancedFlightConfig.init();
+        BalancedFlightConfig.init();
     }
 
     @Override
@@ -27,48 +26,35 @@ public class BalancedFlightMixinPlugin implements IMixinConfigPlugin
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if (!mixinClassName.startsWith(MIXIN_PACKAGE_ROOT)) {
-            BalancedFlight.LOGGER.error("Expected mixin '{}' to start with package root '{}', treating as foreign and " +
-                    "disabling!", mixinClassName, MIXIN_PACKAGE_ROOT);
-
+            BalancedFlight.LOGGER.error("Expected mixin '{}' to start with package root '{}', treating as foreign and disabling!", mixinClassName, MIXIN_PACKAGE_ROOT);
             return false;
         }
 
-        if (!BalancedFlightConfig.ConfigSpec.isLoaded())
-        {
+        if (!BalancedFlightConfig.ConfigSpec.isLoaded()) {
             BalancedFlight.LOGGER.error("Trying to use mixin plugin without config loaded");
         }
 
         String mixin = mixinClassName.substring(MIXIN_PACKAGE_ROOT.length());
-
-        if (mixin.equals("ElytraMixin") || mixin.equals("ElytraServerMixin")|| mixin.equals("ElytraUpdateMixin")) {
-            return BalancedFlightConfig.ElytraAnchor.get() || BalancedFlightConfig.ElytraAscended.get();
-        }
-
-        if (mixin.equals("ElytraRocketShiftKeyMixin")) {
-            return BalancedFlightConfig.infiniteRockets.get();
-        }
-
-        return true;
+        return switch (mixin) {
+            case "ElytraMixin", "ElytraServerMixin", "ElytraUpdateMixin" ->
+                    BalancedFlightConfig.ElytraAnchor.get() || BalancedFlightConfig.ElytraAscended.get();
+            case "ElytraRocketShiftKeyMixin" ->
+                    BalancedFlightConfig.infiniteRockets.get();
+            default -> true;
+        };
     }
 
     @Override
-    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
-
-    }
+    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
 
     @Override
-    public List<String> getMixins()
-    {
+    public List<String> getMixins() {
         return null;
     }
 
     @Override
-    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
-    }
+    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
 
     @Override
-    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
-    }
+    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
 }

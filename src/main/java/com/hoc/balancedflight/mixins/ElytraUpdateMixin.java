@@ -1,32 +1,31 @@
 package com.hoc.balancedflight.mixins;
 
 import com.hoc.balancedflight.content.flightAnchor.FlightController;
-import com.hoc.balancedflight.foundation.compat.AscendedRingCurio;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LivingEntity.class)
-public class ElytraUpdateMixin
-{
+public class ElytraUpdateMixin {
 
-    @Inject(at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/LivingEntity;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;"),
-            method = "updateFallFlying", cancellable = true)
+    @Inject(
+            method = "updateFallFlying",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;getItemBySlot(Lnet/minecraft/world/entity/EquipmentSlot;)Lnet/minecraft/world/item/ItemStack;"
+            ),
+            cancellable = true
+    )
+    private void updateFallFlying(CallbackInfo ci) {
+        LivingEntity entity = (LivingEntity) (Object) this;
 
-    private void updateFallFlying(CallbackInfo ci)
-    {
-        LivingEntity player = (LivingEntity) (Object) this;
-
-        if (!(player instanceof ServerPlayer))
+        if (!(entity instanceof ServerPlayer serverPlayer))
             return;
 
-        FlightController.FlightMode allowed = FlightController.AllowedFlightModes((Player) player, true);
-        if (allowed.canElytraFly())
+        if (FlightController.allowedFlightModes(serverPlayer, true).canElytraFly())
             ci.cancel();
     }
 }

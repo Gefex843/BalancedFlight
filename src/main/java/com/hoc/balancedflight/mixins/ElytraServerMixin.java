@@ -12,25 +12,31 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerGamePacketListenerImpl.class)
-public class ElytraServerMixin
-{
+public class ElytraServerMixin {
+
     @Shadow
     public ServerPlayer player;
 
-    @Inject(at = @At(value = "INVOKE_ASSIGN",
-                    target = "Lnet/minecraft/server/level/ServerPlayer;tryToStartFallFlying()Z"),
-            method = "handlePlayerCommand", cancellable = true)
+    @Inject(
+            method = "handlePlayerCommand",
+            at = @At(
+                    value = "INVOKE_ASSIGN",
+                    target = "Lnet/minecraft/server/level/ServerPlayer;tryToStartFallFlying()Z"
+            ),
+            cancellable = true
+    )
+    private void startFallFlying(CallbackInfo ci) {
+        boolean canAttemptFlight = !player.isFallFlying()
+                && !player.isInWater()
+                && !player.hasEffect(MobEffects.LEVITATION);
 
-    private void startFallFlying(CallbackInfo ci)
-    {
-        if (!player.isFallFlying() && !player.isInWater() && !player.hasEffect(MobEffects.LEVITATION))
-        {
-            FlightController.FlightMode allowed = FlightController.AllowedFlightModes(player, true);
-            if (!allowed.canElytraFly())
-                return;
+        if (!canAttemptFlight)
+            return;
 
-            player.startFallFlying();
-            ci.cancel();
-        }
+        if (!FlightController.allowedFlightModes(player, true).canElytraFly())
+            return;
+
+        player.startFallFlying();
+        ci.cancel();
     }
 }
