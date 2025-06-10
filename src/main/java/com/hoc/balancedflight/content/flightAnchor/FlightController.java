@@ -11,15 +11,25 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FlightController {
+    private static final List<Player> playersGrantedCreativeFlight = new ArrayList<>();
 
     public static void tick(Player player) {
+
+        if (player.tickCount % 20 != 0) {
+            return;
+        }
+
         FlightMode allowed = allowedFlightModes(player, false);
 
         switch (allowed) {
             case None, Elytra -> {
-                if (!player.isCreative() && player.getAbilities().mayfly) {
+                if (!player.isCreative() && player.getAbilities().mayfly && playersGrantedCreativeFlight.contains(player)) {
                     stopFlying(player);
+                    playersGrantedCreativeFlight.remove(player);
                     player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 200));
                 }
             }
@@ -29,9 +39,8 @@ public class FlightController {
                 int amplifier = BalancedFlightConfig.miningSpeedAmplifier.get();
 
                 if (!player.getAbilities().mayfly) {
+                    playersGrantedCreativeFlight.add(player);
                     startFlying(player);
-                    if (player.hasEffect(MobEffects.SLOW_FALLING))
-                        player.removeEffect(MobEffects.SLOW_FALLING);
                 }
                 if (BalancedFlightConfig.isEnableMiningSpeedAmplifier.get() && player.getAbilities().mayfly && blockState.isAir()) {
                     player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 5, amplifier, false, false));
