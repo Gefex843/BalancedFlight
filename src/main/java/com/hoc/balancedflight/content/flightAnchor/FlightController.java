@@ -43,7 +43,7 @@ public class FlightController {
                     startFlying(player);
                 }
                 if (BalancedFlightConfig.isEnableMiningSpeedAmplifier.get() && player.getAbilities().mayfly && blockState.isAir()) {
-                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 5, amplifier, false, false));
+                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 25, amplifier, false, false));
                 }
             }
         }
