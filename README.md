@@ -15,7 +15,7 @@ This version updates the mod for compatibility with **Create 6.0.x**.
 ## 🛠️ Features
 
 - This fork improves flight mechanics for the Create mod.
-- Updated to work with Create 6.0.4.
+- Updated to work with Create 6.0.x.
 
 ---
 
